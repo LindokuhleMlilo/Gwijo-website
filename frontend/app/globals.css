@@ -128,5 +128,26 @@
   }
 }
 
+.bar {
+  background: linear-gradient(
+    180deg,
+    #8aeaff 0%,
+    #83a3ff 33.33%,
+    #fca6f3 66.67%,
+    #fba647 100%
+  );
+  animation: barMove 6s ease-in-out infinite;
+}
+
+.bar:nth-child(even) {
+  animation-delay: 3s;
+}
+
+@keyframes barMove {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-30px); }
+  100% { transform: translateY(0); }
+}
+
 /* Added Google Fonts import for Playfair Display */
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap");

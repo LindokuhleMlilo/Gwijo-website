@@ -1,4 +1,5 @@
 import { Navigation } from "@/components/navigation"
+import { BannerSection } from "@/components/banner-section"
 import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
 import { WorkSection } from "@/components/work-section"
@@ -10,8 +11,9 @@ import { Footer } from "@/components/footer"
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen pt-16"> 
       <Navigation />
+      <BannerSection />
       <HeroSection />
       <AboutSection />
       <WorkSection />
@@ -23,3 +25,4 @@ export default function HomePage() {
     </main>
   )
 }
+

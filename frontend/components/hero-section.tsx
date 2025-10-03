@@ -1,14 +1,31 @@
 import { Button } from "@/components/ui/button"
 import { Play, Calendar } from "lucide-react"
 
+// A helper component to render 25 animated bars
+function GradientBars() {
+  return (
+    <div className="absolute inset-0 flex justify-center overflow-hidden">
+      <div className="barTrack flex h-full w-[2000px]">
+        {Array.from({ length: 25 }).map((_, i) => (
+          <div
+            key={i}
+            className="bar w-20 h-full"
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[70vh] flex items-center justify-center 
-                 bg-gradient-to-b from-[#8aeaff] via-[#83a3ff] via-33% 
-                 via-[#fca6f3] via-66% to-[#fba647] text-center overflow-hidden py-20"
+      className="relative min-h-[70vh] flex items-center justify-center text-center overflow-hidden py-20"
     >
+      {/* Animated Gradient Bars */}
+      <GradientBars />
+
       {/* Content */}
       <div className="relative z-10 text-white px-4 max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4 text-balance">
