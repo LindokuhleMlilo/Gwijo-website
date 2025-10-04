@@ -149,5 +149,87 @@
   100% { transform: translateY(0); }
 }
 
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.scrolling-logos-container {
+  position: relative;
+  width: 100%;
+}
+
+.scrolling-logos-container::before,
+.scrolling-logos-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+}
+
+.scrolling-logos-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.scrolling-logos-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.logo-item {
+  transition: all 0.3s ease;
+}
+
+@keyframes scrollLeftToRight {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        @keyframes scrollRightToLeft {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+        
+        .animate-scroll-left-to-right {
+          animation: scrollLeftToRight 30s linear infinite;
+          display: flex;
+          width: max-content;
+        }
+        
+        .animate-scroll-right-to-left {
+          animation: scrollRightToLeft 30s linear infinite;
+          display: flex;
+          width: max-content;
+        }
+        
+        .scrolling-brands:hover .animate-scroll-left-to-right,
+        .scrolling-brands:hover .animate-scroll-right-to-left {
+          animation-play-state: paused;
+        }
+      
+
+        
+
 /* Added Google Fonts import for Playfair Display */
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap");
