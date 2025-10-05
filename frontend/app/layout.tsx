@@ -9,7 +9,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Gwijo Avenue - The Voice of Ama-Gwijo",
   description: "From Alexandra to the World – Celebrating South Africa's Rich Heritage through a cappella music",
-  generator: "v0.app",
+  
 }
 
 export default function RootLayout({

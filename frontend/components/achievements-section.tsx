@@ -128,21 +128,21 @@ export function AchievementsSection() {
     >
       {/* Animated Background Elements */}
       <div 
-        className="absolute inset-0 transition-transform duration-100 ease-out"
+        className="absolute inset-0 transition-transform duration-100 ease-out bg-oklch(82.7% 0.119 306.383)"
         style={{
           transform: `translateX(${mousePosition.x}px) translateY(${mousePosition.y}px)`
         }}
       >
-        <div className="absolute top-20 left-10 w-20 h-20 bg-gradient-to-r from-[#8aeaff] to-[#83a3ff] rounded-full opacity-40 blur-xl animate-pulse" />
-        <div className="absolute top-40 right-20 w-16 h-16 bg-gradient-to-r from-[#fca6f3] to-[#fba647] rounded-full opacity-30 blur-lg animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-32 left-1/4 w-24 h-24 bg-gradient-to-r from-[#83a3ff] to-[#fca6f3] rounded-full opacity-35 blur-2xl animate-pulse" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-10 right-1/4 w-12 h-12 bg-gradient-to-r from-[#8aeaff] to-[#83a3ff] rounded-full opacity-20 blur-lg animate-bounce" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute top-20 left-20 w-20 h-20 bg-gradient-to-r from-[#8aeaff] to-[#83a3ff] rounded-full opacity-40 blur-xl animate-pulse" />
+        <div className="absolute top-40 right-60 w-16 h-16 bg-gradient-to-r from-[#fca6f3] to-[#fba647] rounded-full opacity-30 blur-lg animate-pulse" style={{ animationDelay: '1.2s' }} />
+        <div className="absolute bottom-32 left-1/4 w-24 h-24 bg-gradient-to-r from-[#83a3ff] to-[#fca6f3] rounded-full opacity-35 blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute top-10 right-1/4 w-12 h-12 bg-gradient-to-r from-[#8aeaff] to-[#83a3ff] rounded-full opacity-40 blur-lg animate-bounce" style={{ animationDelay: '0.5s' }} />
         <div className="absolute bottom-20 right-10 w-14 h-14 bg-gradient-to-r from-[#fca6f3] to-[#fba647] rounded-full opacity-45 blur-lg animate-bounce" style={{ animationDelay: '1.5s' }} />
-        <div className="absolute top-1/3 left-20 w-10 h-10 bg-gradient-to-r from-[#83a3ff] to-[#fca6f3] rounded-full opacity-25 blur-md animate-ping" style={{ animationDelay: '0.8s' }} />
+        <div className="absolute top-5 left-20 w-10 h-10 bg-gradient-to-r from-[#83a3ff] to-[#fca6f3] rounded-full opacity-30 blur-md animate-ping" style={{ animationDelay: '1.2s' }} />
         <div className="absolute bottom-40 right-1/3 w-16 h-16 bg-gradient-to-r from-[#fba647] to-[#8aeaff] rounded-full opacity-30 blur-xl animate-pulse" style={{ animationDelay: '2.5s' }} />
-        <div className="absolute top-2/3 left-1/2 w-8 h-8 bg-gradient-to-r from-[#8aeaff] to-[#fba647] rounded-full opacity-30 blur-sm animate-bounce" style={{ animationDelay: '1.2s' }} />
-        <div className="absolute top-16 right-40 w-18 h-18 bg-gradient-to-r from-[#fca6f3] to-[#83a3ff] rounded-full opacity-40 blur-lg animate-pulse" style={{ animationDelay: '3s' }} />
-        <div className="absolute bottom-16 left-32 w-12 h-12 bg-gradient-to-r from-[#83a3ff] to-[#8aeaff] rounded-full opacity-20 blur-md animate-bounce" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-15 left-1/2 w-10 h-10 bg-gradient-to-r from-[#8aeaff] to-[#fba647] rounded-full opacity-50 blur-sm animate-bounce" style={{ animationDelay: '1.2s' }} />
+        <div className="absolute top-16 right-40 w-25 h-25 bg-gradient-to-r from-[#fca6f3] to-[#83a3ff] rounded-full opacity-40 blur-lg animate-pulse" style={{ animationDelay: '1.3s' }} />
+        <div className="absolute bottom-16 left-32 w-20 h-20 bg-gradient-to-r from-[#83a3ff] to-[#8aeaff] rounded-full opacity-40 blur-lg animate-bounce" style={{ animationDelay: '2s' }} />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

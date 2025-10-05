@@ -5,7 +5,7 @@
 
 :root {
   /* Updated color tokens to match Gwijo Avenue design brief with black, white, and gold palette */
-  --background: oklch(1 0 0); /* White background */
+  --background: #8aeaff(1 0 0); /* White background */
   --foreground: oklch(0 0 0); /* Black text */
   --card: oklch(1 0 0); /* White card background */
   --card-foreground: oklch(0 0 0); /* Black card text */
