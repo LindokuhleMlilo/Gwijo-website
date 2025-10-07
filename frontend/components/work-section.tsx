@@ -59,13 +59,13 @@ export function WorkSection() {
   }
 
   return (
-    <section id="work" className="py-20 bg-white relative overflow-hidden">
+    <section id="work" className="py-20 relative overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance bg-gradient-to-r from-[#83a3ff] via-[#fca6f3] to-[#fba647] bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance bg-gradient-to-r from-white via-gray-400 to-gray-700 bg-clip-text text-transparent">
             Featured Campaigns
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto text-balance">
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
             Trusted by leading brands to deliver authentic South African musical experiences that resonate with
             audiences worldwide.
           </p>
@@ -76,7 +76,7 @@ export function WorkSection() {
           {featuredCampaigns.map((campaign, index) => (
             <Card 
               key={index}
-              className="overflow-hidden bg-white border-2 border-gray-100 transition-all duration-500 relative group cursor-pointer"
+              className="overflow-hidden bg-card/50 border border-border transition-all duration-500 relative group cursor-pointer backdrop-blur-sm"
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => {
                 setHoveredCard(null)
@@ -94,18 +94,18 @@ export function WorkSection() {
               <div 
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"
                 style={{
-                  background: 'linear-gradient(180deg, #8aeaff 0%, #83a3ff 33.33%, #fca6f3 66.67%, #fba647 100%)',
+                  background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
                   transform: hoveredCard === index ? 'scale(1.05)' : 'scale(1)',
                 }}
               />
 
               <div className="relative z-10">
                 {/* Logo Section */}
-                <div className="aspect-video bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center p-8 relative overflow-hidden">
+                <div className="aspect-video bg-muted flex items-center justify-center p-8 relative overflow-hidden">
                   <div 
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                     style={{
-                      background: 'linear-gradient(45deg, #8aeaff20, #83a3ff20, #fca6f320, #fba64720)'
+                      background: 'linear-gradient(45deg, rgba(0,0,0,0.1), rgba(107,114,128,0.1), rgba(255,255,255,0.1))'
                     }}
                   />
                   <img
@@ -115,41 +115,21 @@ export function WorkSection() {
                   />
                 </div>
 
-                <CardContent className="p-6 bg-white/90 backdrop-blur-sm">
-                  <h4 
-                    className="text-xl font-bold mb-2 transition-colors duration-300"
-                    style={{
-                      color: hoveredCard === index ? '#1e40af' : '#1f2937'
-                    }}
-                  >
+                <CardContent className="p-6 bg-card/80 backdrop-blur-sm">
+                  <h4 className="text-xl font-bold mb-2 text-foreground">
                     {campaign.title}
                   </h4>
-                  <p 
-                    className="mb-4 transition-colors duration-300"
-                    style={{
-                      color: hoveredCard === index ? '#4b5563' : '#6b7280'
-                    }}
-                  >
+                  <p className="mb-4 text-muted-foreground">
                     {campaign.description}
                   </p>
                   
                   <div className="space-y-2 text-sm">
                     {campaign.stats.map((stat, statIndex) => (
                       <div key={statIndex} className="flex justify-between">
-                        <span 
-                          className="font-semibold transition-colors duration-300"
-                          style={{
-                            color: hoveredCard === index ? '#374151' : '#6b7280'
-                          }}
-                        >
+                        <span className="font-semibold text-muted-foreground">
                           {stat.label}:
                         </span>
-                        <span 
-                          className="font-bold transition-colors duration-300"
-                          style={{
-                            color: hoveredCard === index ? '#83a3ff' : '#1f2937'
-                          }}
-                        >
+                        <span className="font-bold text-foreground">
                           {stat.value}
                         </span>
                       </div>
@@ -157,13 +137,7 @@ export function WorkSection() {
                   </div>
 
                   {campaign.timeline && (
-                    <div 
-                      className="text-xs mt-3 p-2 rounded bg-gray-50 transition-colors duration-300"
-                      style={{
-                        backgroundColor: hoveredCard === index ? '#f8fafc' : '#f9fafb',
-                        color: hoveredCard === index ? '#4b5563' : '#6b7280'
-                      }}
-                    >
+                    <div className="text-xs mt-3 p-2 rounded bg-muted text-muted-foreground">
                       {campaign.timeline}
                     </div>
                   )}
@@ -173,7 +147,7 @@ export function WorkSection() {
                     className="absolute bottom-0 left-0 h-1 transition-all duration-500"
                     style={{
                       width: hoveredCard === index ? '100%' : '0%',
-                      background: 'linear-gradient(90deg, #8aeaff, #83a3ff, #fca6f3, #fba647)'
+                      background: 'linear-gradient(90deg, #000000, #6b7280, #ffffff)'
                     }}
                   />
                 </CardContent>
@@ -185,14 +159,14 @@ export function WorkSection() {
                   <div 
                     className="absolute top-4 right-4 w-3 h-3 rounded-full opacity-70 animate-pulse"
                     style={{
-                      background: 'linear-gradient(45deg, #8aeaff, #83a3ff)',
+                      background: 'linear-gradient(45deg, #ffffff, #9ca3af)',
                       animationDelay: '0s'
                     }}
                   />
                   <div 
                     className="absolute bottom-4 left-4 w-2 h-2 rounded-full opacity-60 animate-pulse"
                     style={{
-                      background: 'linear-gradient(45deg, #fca6f3, #fba647)',
+                      background: 'linear-gradient(45deg, #6b7280, #4b5563)',
                       animationDelay: '0.5s'
                     }}
                   />
@@ -204,26 +178,27 @@ export function WorkSection() {
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center justify-center p-8 rounded-2xl border-2 border-gray-100 relative overflow-hidden group cursor-pointer">
+          <div className="inline-flex flex-col sm:flex-row gap-4 items-center justify-center p-8 rounded-2xl border border-border relative overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm">
             <div 
               className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
               style={{
-                background: 'linear-gradient(180deg, #8aeaff 0%, #83a3ff 33.33%, #fca6f3 66.67%, #fba647 100%)',
+                background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
               }}
             />
-            <span className="text-xl relative z-10 transition-colors duration-300 group-hover:text-white text-gray-700">
+            <span className="text-xl relative z-10 transition-colors duration-300 group-hover:text-black text-foreground">
               Want to create something amazing together?
             </span>
             <button 
-              className="px-8 py-3 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative z-10"
+              className="px-8 py-3 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative z-10"
               style={{
-                background: 'linear-gradient(180deg, #8aeaff 0%, #83a3ff 33.33%, #fca6f3 66.67%, #fba647 100%)',
+                background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
+                color: '#000000'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.filter = 'brightness(1.1) contrast(1.1)'
+                e.currentTarget.style.filter = 'brightness(1.1)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.filter = 'brightness(1) contrast(1)'
+                e.currentTarget.style.filter = 'brightness(1)'
               }}
             >
               Start a Project

@@ -6,13 +6,28 @@ import { Menu, X } from "lucide-react"
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      const scrolled = window.scrollY > 50
+      setIsScrolled(scrolled)
+      
+      // Calculate scroll progress based on viewport height
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
+      const documentHeight = document.documentElement.scrollHeight
+      const maxScroll = documentHeight - windowHeight
+      const progress = maxScroll > 0 ? (scrollY / maxScroll) * 100 : 0
+      
+      setScrollProgress(Math.min(progress, 100))
     }
-    window.addEventListener("scroll", handleScroll)
+    
+    // Initial call
+    handleScroll()
+    
+    window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
@@ -31,9 +46,24 @@ export function Navigation() {
         isScrolled ? "bg-background/95 backdrop-blur-sm shadow-lg" : "bg-transparent"
       }`}
     >
+      {/* Animated Border Line - Fixed at top */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-gray-500 transition-all duration-100 ease-out"
+        style={{ width: `${scrollProgress}%` }}
+      />
+
+      
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-serif font-bold text-primary">Gwijo Avenue</div>
+          {/* Logo */}
+          <div className="flex items-center">
+            <img 
+              src="/WhatsApp_Image_2025-10-07_at_10.01.42-removebg-preview.png" 
+              alt="Gwijo Avenue Logo" 
+              className="h-12 w-auto mr-3"
+            />
+            <div className="text-2xl font-serif font-bold text-primary">Gwijo Avenue</div>
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">

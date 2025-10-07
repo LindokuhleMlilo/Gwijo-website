@@ -1,131 +1,250 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useRef, useEffect, useState } from "react";
 
-const collaborations = [
-  { name: "Chicken Licken", logo: "/chicken-licken-logo.png" },
-  { name: "Nedbank Cup", logo: "/nedbank-cup-logo.png" },
-  { name: "KFC x Kolisi Foundation", logo: "/kfc-kolisi-foundation-logo.png" },
-  { name: "SuperSport Schools", logo: "/supersport-schools-logo.png" },
-  { name: "Toyota", logo: "/toyota-logo.png" },
-  { name: "Dove", logo: "/dove-logo.png" },
-  { name: "MTN", logo: "/generic-telecom-logo.png" },
-  { name: "Google SA", logo: "/google-south-africa-logo.png" },
-];
-
-function GradientBars() {
-  const [scrollY, setScrollY] = useState(0);
-  const numBars = 25;
+// 🎵 Animated Music Notes Background
+function MusicNotesBackground() {
+  const bgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Optional subtle parallax movement for depth
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!bgRef.current) return;
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      bgRef.current.style.transform = `translate(${x}px, ${y}px)`;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    <div className="absolute inset-0 flex justify-center overflow-hidden pointer-events-none">
-      <div className="barTrack flex h-full w-[2000px]">
-        {Array.from({ length: numBars }).map((_, i) => {
-          const centerIndex = (numBars - 1) / 2;
-          const distanceFromCenter = Math.abs(i - centerIndex);
+    <div
+      ref={bgRef}
+      className="absolute inset-0 overflow-hidden pointer-events-none music-bg"
+    >
+      {/* Animated music notes */}
+      {[...Array(12)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute music-note"
+          style={{
+            left: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 15}s`,
+            fontSize: `${Math.random() * 20 + 20}px`,
+            color: "#D14900",
+            opacity: 0.6,
+          }}
+        >
+          ♪
+        </div>
+      ))}
 
-          // Create triangle effect
-          const offset = (1 - distanceFromCenter / centerIndex) * scrollY * 0.3; // adjust multiplier
-
-          return (
-            <div
-              key={i}
-              className="bar w-20 bg-gradient-to-b from-pink-500 via-purple-500 to-blue-500 transition-transform duration-150"
-              style={{ transform: `translateY(${offset}px)` }}
-            />
-          );
-        })}
+      {/* 3D floating geometric elements */}
+      <div className="absolute w-full h-full">
+        {[...Array(6)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute animate-float-3d"
+            style={{
+              width: `${Math.random() * 80 + 40}px`,
+              height: `${Math.random() * 80 + 40}px`,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              background:
+                i % 3 === 0
+                  ? "#D14900"
+                  : i % 3 === 1
+                  ? "#006C67"
+                  : "#FFD166",
+              opacity: 0.08,
+              animationDelay: `${Math.random() * 8}s`,
+              animationDuration: `${Math.random() * 25 + 15}s`,
+              borderRadius: i % 2 === 0 ? "50%" : "8px",
+            }}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
-function ScrollingBrands() {
+// 📸 Floating Group Photo with Mouse-Reactive 3D Effect
+function FloatingImage3D() {
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!imageRef.current) return;
+
+      const { left, top, width, height } =
+        imageRef.current.getBoundingClientRect();
+      const x = (e.clientX - (left + width / 2)) / width;
+      const y = (e.clientY - (top + height / 2)) / height;
+
+      const rotateY = x * 20; // horizontal tilt
+      const rotateX = -y * 20; // vertical tilt
+      setRotation({ x: rotateX, y: rotateY });
+    };
+
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => {
+      setIsHovering(false);
+      setRotation({ x: 0, y: 0 });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    if (imageRef.current) {
+      imageRef.current.addEventListener("mouseenter", handleMouseEnter);
+      imageRef.current.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (imageRef.current) {
+        imageRef.current.removeEventListener("mouseenter", handleMouseEnter);
+        imageRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      }
+    };
+  }, []);
+
+  const translateZ = isHovering ? 30 : 0;
+  const scale = isHovering ? 1.05 : 1;
+
   return (
-    <div className="w-full overflow-hidden space-y-8">
-      {/* Top row - moves left to right */}
-      <div className="scrolling-brands-container relative py-4">
-        {/* Gradient fade effects on sides */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10" />
-        
-        <div className="scrolling-brands flex animate-scroll-left-to-right">
-          {[...collaborations, ...collaborations].map((brand, index) => (
-            <div
-              key={`top-${brand.name}-${index}`}
-              className="brand-item flex-shrink-0 mx-8 w-40 h-20 flex items-center justify-center"
-            >
-              <div className="transition-all duration-300 cursor-pointer p-4 rounded-lg hover:scale-110">
-                <img
-                  src={brand.logo || "/placeholder.svg"}
-                  alt={`${brand.name} logo`}
-                  className="max-w-full max-h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom row - moves right to left */}
-      <div className="scrolling-brands-container relative py-4">
-        {/* Gradient fade effects on sides */}
-        <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-background to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-background to-transparent z-10" />
-        
-        <div className="scrolling-brands flex animate-scroll-right-to-left">
-          {[...collaborations, ...collaborations].map((brand, index) => (
-            <div
-              key={`bottom-${brand.name}-${index}`}
-              className="brand-item flex-shrink-0 mx-8 w-40 h-20 flex items-center justify-center"
-            >
-              <div className="transition-all duration-300 cursor-pointer p-4 rounded-lg hover:scale-110">
-                <img
-                  src={brand.logo || "/placeholder.svg"}
-                  alt={`${brand.name} logo`}
-                  className="max-w-full max-h-16 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="relative w-full max-w-2xl lg:max-w-4xl flex justify-center items-center">
+      <div
+        ref={imageRef}
+        className="relative w-full h-auto cursor-pointer transition-transform duration-200 ease-out"
+        style={{
+          transform: `
+            perspective(1000px)
+            rotateX(${rotation.x}deg)
+            rotateY(${rotation.y}deg)
+            translateZ(${translateZ}px)
+            scale(${scale})
+          `,
+          transformStyle: "preserve-3d",
+        }}
+      >
+        <img
+          src="/group photo.png"
+          alt="Ubuntu Gwijo Dance Group"
+          className="w-full h-auto rounded-2xl object-cover relative z-10"
+          style={{
+            filter: "drop-shadow(0 25px 25px rgba(0, 0, 0, 0.15))",
+          }}
+        />
       </div>
     </div>
   );
 }
 
+// 🌟 Hero Section
 export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-[60vh] flex flex-col items-center justify-center text-center overflow-hidden py-16"
+      className="relative min-h-[90vh] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-4 md:px-8 lg:px-16 xl:px-24 py-12 lg:py-0 overflow-hidden bg-[#F4EDE4]"
     >
-      {/* Gradient bars */}
-      <GradientBars />
+      {/* 3D Animated Background */}
+      <MusicNotesBackground />
 
-      {/* Hero Content */}
-      <div className="container mx-auto px-4 z-10 mb-12">
-        <div className="text-center">
-          <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 text-balance">
-            Brand Collaborations
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto text-balance">
-            Trusted by leading brands to deliver authentic South African musical experiences that resonate with
-            audiences worldwide.
-          </p>
-        </div>
+      {/* Left Side - Group Photo */}
+      <div className="relative z-10 w-full lg:w-[55%] flex justify-center mb-12 lg:mb-0 order-1 lg:order-1">
+        <FloatingImage3D />
       </div>
 
-      {/* Scrolling Brands */}
-      <ScrollingBrands />
+     {/* Right Side - Text Content - Simplified Version */}
+<div className="relative z-10 w-full lg:w-[45%] text-center lg:text-right order-2 lg:order-2">
+  <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold mb-6 tracking-tight leading-tight">
+    <span className="block text-[#1A1A1A] typing-text" style={{ animation: 'typing 3.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite' }}>Gwijo</span>
+    <span className="block mt-1 lg:mt-2 text-[#D14900] typing-text" style={{ animation: 'typing 3.5s steps(30, end) 3.6s forwards, blink-caret 0.75s step-end infinite' }}>Avenue</span>
+  </h1>
 
-      
+  <p className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium mb-6 lg:mb-8 tracking-wide leading-relaxed text-[#1A1A1A]">
+    <span className="typing-desc" style={{ animation: 'typing 4s steps(50, end) 7.2s forwards' }}>
+      The Voice of Ama-Gwijo<br />
+      From Alexandra to the World<br />
+      Celebrating South Africa's Rich Heritage
+    </span>
+  </p>
+
+  <div className="w-20 lg:w-24 h-1 mx-auto lg:ml-auto lg:mr-0 mb-6 lg:mb-8 bg-[#006C67]"></div>
+
+  <Button
+    size="lg"
+    className="text-base md:text-lg lg:text-xl font-bold px-8 md:px-10 lg:px-12 py-4 md:py-5 lg:py-6 hover:scale-105 transition-transform duration-200 shadow-lg"
+    style={{
+      backgroundColor: "#D14900",
+      color: "#FFFFFF",
+    }}
+  >
+    Book Us
+  </Button>
+
+  <style jsx>{`
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink-caret {
+      from, to {
+        border-color: transparent;
+      }
+      50% {
+        border-color: #D14900;
+      }
+    }
+
+    .typing-text {
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0 auto;
+      width: 0;
+      border-right: 3px solid;
+    }
+
+    .typing-desc {
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      display: inline-block;
+    }
+
+    /* Disable animations on mobile for better performance */
+    @media (max-width: 1024px) {
+      .typing-text,
+      .typing-desc {
+        white-space: normal;
+        overflow: visible;
+        width: auto;
+        animation: none;
+        border-right: none;
+      }
+    }
+  `}</style>
+
+</div>
+      {/* Decorative bottom corners */}
+      <div className="absolute bottom-4 lg:bottom-8 left-4 lg:left-8 flex items-center space-x-2 text-[#006C67]">
+        <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-current"></div>
+        <div className="w-8 lg:w-12 h-1 bg-current"></div>
+      </div>
+
+      <div className="absolute bottom-4 lg:bottom-8 right-4 lg:right-8 flex items-center space-x-2 text-[#006C67]">
+        <div className="w-8 lg:w-12 h-1 bg-current"></div>
+        <div className="w-2 h-2 lg:w-3 lg:h-3 rounded-full bg-current"></div>
+      </div>
     </section>
   );
 }

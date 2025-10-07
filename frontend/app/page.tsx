@@ -1,5 +1,5 @@
 import { Navigation } from "@/components/navigation"
-import { BannerSection } from "@/components/banner-section"
+// import { BannerSection } from "@/components/banner-section"
 import { HeroSection } from "@/components/hero-section"
 import { AboutSection } from "@/components/about-section"
 import { WorkSection } from "@/components/work-section"
@@ -13,7 +13,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen pt-16"> 
       <Navigation />
-      <BannerSection />
+      {/* <BannerSection /> */}
       <HeroSection />
       <AboutSection />
       <WorkSection />
