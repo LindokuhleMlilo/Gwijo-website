@@ -162,12 +162,12 @@ export function HeroSection() {
      {/* Right Side - Text Content - Simplified Version */}
 <div className="relative z-10 w-full lg:w-[45%] text-center lg:text-right order-2 lg:order-2">
   <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold mb-6 tracking-tight leading-tight">
-    <span className="block text-[#1A1A1A] typing-text" style={{ animation: 'typing 3.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite' }}>Gwijo</span>
-    <span className="block mt-1 lg:mt-2 text-[#D14900] typing-text" style={{ animation: 'typing 3.5s steps(30, end) 3.6s forwards, blink-caret 0.75s step-end infinite' }}>Avenue</span>
+    <span className="block text-[#1A1A1A] typing-text" style={{ animation: 'typing 0.5s steps(30, end) forwards, blink-caret 0.75s step-end infinite' }}>Gwijo</span>
+    <span className="block mt-1 lg:mt-2 text-[#D14900] typing-text" style={{ animation: 'typing 0.5s steps(30, end) 0.6s forwards, blink-caret 0.75s step-end infinite' }}>Avenue</span>
   </h1>
 
   <p className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-medium mb-6 lg:mb-8 tracking-wide leading-relaxed text-[#1A1A1A]">
-    <span className="typing-desc" style={{ animation: 'typing 4s steps(50, end) 7.2s forwards' }}>
+    <span className="typing-desc" style={{ animation: 'typing 1.5s steps(50, end) 1.2s forwards' }}>
       The Voice of Ama-Gwijo<br />
       From Alexandra to the World<br />
       Celebrating South Africa's Rich Heritage
