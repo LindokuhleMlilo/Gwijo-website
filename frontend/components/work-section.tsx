@@ -1,211 +1,273 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
-import { useState } from "react"
-
-const featuredCampaigns = [
-  {
-    title: "Nedbank Cup",
-    description: "South Africa's premier club soccer knockout tournament featuring 'Gwijo Avenue music' as part of the event's celebration.",
-    logo: "/nedbank-cup-logo.png",
-    stats: [
-      { label: "TikTok Views", value: "87.3K" },
-      { label: "TikTok Likes", value: "3.7K" }
-    ],
-    timeline: "2022: Radio Advert • 2023/24: TV, radio and online licensing + Launch Performance • 2024/25: License renewal"
-  },
-  {
-    title: "Chicken Licken - Gwijo Formation",
-    description: "A campaign combining soccer, music, and Chicken Licken's brand. Gwijo Avenue created the theme song for TV, radio and online.",
-    logo: "/chicken-licken-logo.png",
-    stats: [
-      { label: "First TikTok", value: "72.1K views" },
-      { label: "Second TikTok", value: "66.4K views" }
-    ],
-    timeline: ""
-  },
-  {
-    title: "KFC x Kolisi Foundation",
-    description: "Collaboration creating musical experiences that support community development and social impact initiatives.",
-    logo: "/kfc-kolisi-foundation-logo.png",
-    stats: [
-      { label: "Social Reach", value: "150K+" },
-      { label: "Engagement", value: "12.5K" }
-    ],
-    timeline: "2023: National Campaign • Community Outreach Programs"
-  },
-  {
-    title: "Toyota South Africa",
-    description: "Brand partnership featuring Gwijo Avenue's authentic sounds in national automotive marketing campaigns.",
-    logo: "/toyota-logo.png",
-    stats: [
-      { label: "Campaign Views", value: "250K+" },
-      { label: "Brand Lift", value: "+18%" }
-    ],
-    timeline: "2024: National TV Campaign • Digital Integration"
-  }
-]
+import { useEffect, useRef } from "react"
 
 export function WorkSection() {
-  const [hoveredCard, setHoveredCard] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  const handleMouseMove = (e: React.MouseEvent, index: number) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 20
-    setMousePosition({ x, y })
-    setHoveredCard(index)
-  }
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+
+    resizeCanvas()
+    window.addEventListener('resize', resizeCanvas)
+
+    // Music notes with colors from the palette
+    const musicNotes = [
+      { symbol: "♩", color: "#D14900" }, // Primary - burnt orange
+      { symbol: "♪", color: "#006C67" }, // Secondary - deep teal
+      { symbol: "♫", color: "#FFD166" }, // Accent - golden yellow
+      { symbol: "♬", color: "#1A1A1A" }, // Text - rich black
+      // { symbol: "🎵", color: "#D14900" }, // Primary
+      // { symbol: "🎶", color: "#006C67" }, // Secondary
+      // { symbol: "🎼", color: "#FFD166" }, // Accent
+      // { symbol: "🎹", color: "#1A1A1A" }, // Text
+      // { symbol: "🎺", color: "#D14900" }, // Primary
+      // { symbol: "🎸", color: "#006C67" }, // Secondary
+      // { symbol: "🥁", color: "#FFD166" }, // Accent
+      // { symbol: "🎤", color: "#1A1A1A" }  // Text
+    ];
+
+    // Create particles with more variety
+    const particles: Array<{
+      x: number
+      y: number
+      size: number
+      speedX: number
+      speedY: number
+      note: { symbol: string; color: string }
+      opacity: number
+      rotation: number
+      rotationSpeed: number
+      floatSpeed: number
+    }> = []
+
+    // Create more particles for a richer animation
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 25 + 15,
+        speedX: (Math.random() - 0.5) * 0.8,
+        speedY: (Math.random() - 0.5) * 0.8,
+        note: musicNotes[Math.floor(Math.random() * musicNotes.length)],
+        opacity: Math.random() * 0.4 + 0.2,
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 0.5,
+        floatSpeed: Math.random() * 0.02 + 0.01
+      })
+    }
+
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      
+      // Draw background overlay
+      ctx.fillStyle = 'rgba(244, 237, 228, 0.3)' // #F4EDE4 with opacity
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Update and draw particles
+      particles.forEach(particle => {
+        // Move particles
+        particle.x += particle.speedX
+        particle.y += particle.speedY
+        
+        // Add floating motion
+        particle.y += Math.sin(Date.now() * particle.floatSpeed) * 0.3
+        
+        // Rotate particles
+        particle.rotation += particle.rotationSpeed
+        
+        // Reset if off screen
+        if (particle.x > canvas.width + 50) particle.x = -50
+        if (particle.x < -50) particle.x = canvas.width + 50
+        if (particle.y > canvas.height + 50) particle.y = -50
+        if (particle.y < -50) particle.y = canvas.height + 50
+
+        // Draw music note with rotation
+        ctx.save()
+        ctx.translate(particle.x, particle.y)
+        ctx.rotate(particle.rotation * Math.PI / 180)
+        ctx.globalAlpha = particle.opacity
+        ctx.font = `bold ${particle.size}px Arial, sans-serif`
+        ctx.fillStyle = particle.note.color
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(particle.note.symbol, 0, 0)
+        
+        // Add glow effect for some notes
+        if (particle.note.color === '#FFD166') {
+          ctx.shadowColor = particle.note.color
+          ctx.shadowBlur = 10
+          ctx.fillText(particle.note.symbol, 0, 0)
+        }
+        
+        ctx.restore()
+      })
+
+      requestAnimationFrame(animate)
+    }
+
+    animate()
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas)
+    }
+  }, [])
 
   return (
-    <section id="work" className="py-20 relative overflow-hidden">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-balance bg-gradient-to-r from-white via-gray-400 to-gray-700 bg-clip-text text-transparent">
-            Featured Campaigns
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto text-balance">
-            Trusted by leading brands to deliver authentic South African musical experiences that resonate with
-            audiences worldwide.
-          </p>
-        </div>
+    <section id="work" className="py-20 relative overflow-hidden min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F4EDE4' }}>
+      {/* Animated Canvas Background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      />
+      
+      {/* Background GIF */}
+      <div 
+        className="absolute inset-0 opacity-20 mix-blend-multiply z-0"
+        style={{
+          backgroundImage: "url('3841255123-preview-unscreen.gif')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
+        }}
+      />
 
-        {/* Featured Work Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {featuredCampaigns.map((campaign, index) => (
-            <Card 
-              key={index}
-              className="overflow-hidden bg-card/50 border border-border transition-all duration-500 relative group cursor-pointer backdrop-blur-sm"
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => {
-                setHoveredCard(null)
-                setMousePosition({ x: 0, y: 0 })
-              }}
-              onMouseMove={(e) => handleMouseMove(e, index)}
-              style={{
-                transform: hoveredCard === index 
-                  ? `perspective(1000px) rotateY(${mousePosition.x}deg) rotateX(${-mousePosition.y}deg) scale3d(1.02, 1.02, 1.02)`
-                  : 'perspective(1000px) rotateY(0deg) rotateX(0deg) scale3d(1, 1, 1)',
-                transition: 'transform 0.5s ease, box-shadow 0.5s ease'
-              }}
+      {/* Content Overlay */}
+      <div className="container mx-auto px-4 relative z-10 text-center">
+        <div className="max-w-4xl mx-auto">
+          {/* Main Title */}
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-balance" style={{ color: '#1A1A1A' }}>
+            Our Musical
+            <span 
+              className="block mt-2 bg-gradient-to-r from-[#D14900] via-[#006C67] to-[#FFD166] bg-clip-text text-transparent"
             >
-              {/* Gradient Overlay */}
-              <div 
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"
-                style={{
-                  background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
-                  transform: hoveredCard === index ? 'scale(1.05)' : 'scale(1)',
-                }}
-              />
-
-              <div className="relative z-10">
-                {/* Logo Section */}
-                <div className="aspect-video bg-muted flex items-center justify-center p-8 relative overflow-hidden">
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    style={{
-                      background: 'linear-gradient(45deg, rgba(0,0,0,0.1), rgba(107,114,128,0.1), rgba(255,255,255,0.1))'
-                    }}
-                  />
-                  <img
-                    src={campaign.logo || "/placeholder.svg"}
-                    alt={`${campaign.title} logo`}
-                    className="max-w-full max-h-20 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-110"
-                  />
-                </div>
-
-                <CardContent className="p-6 bg-card/80 backdrop-blur-sm">
-                  <h4 className="text-xl font-bold mb-2 text-foreground">
-                    {campaign.title}
-                  </h4>
-                  <p className="mb-4 text-muted-foreground">
-                    {campaign.description}
-                  </p>
-                  
-                  <div className="space-y-2 text-sm">
-                    {campaign.stats.map((stat, statIndex) => (
-                      <div key={statIndex} className="flex justify-between">
-                        <span className="font-semibold text-muted-foreground">
-                          {stat.label}:
-                        </span>
-                        <span className="font-bold text-foreground">
-                          {stat.value}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {campaign.timeline && (
-                    <div className="text-xs mt-3 p-2 rounded bg-muted text-muted-foreground">
-                      {campaign.timeline}
-                    </div>
-                  )}
-
-                  {/* Hover Indicator */}
-                  <div 
-                    className="absolute bottom-0 left-0 h-1 transition-all duration-500"
-                    style={{
-                      width: hoveredCard === index ? '100%' : '0%',
-                      background: 'linear-gradient(90deg, #000000, #6b7280, #ffffff)'
-                    }}
-                  />
-                </CardContent>
-              </div>
-
-              {/* Floating Elements on Hover */}
-              {hoveredCard === index && (
-                <>
-                  <div 
-                    className="absolute top-4 right-4 w-3 h-3 rounded-full opacity-70 animate-pulse"
-                    style={{
-                      background: 'linear-gradient(45deg, #ffffff, #9ca3af)',
-                      animationDelay: '0s'
-                    }}
-                  />
-                  <div 
-                    className="absolute bottom-4 left-4 w-2 h-2 rounded-full opacity-60 animate-pulse"
-                    style={{
-                      background: 'linear-gradient(45deg, #6b7280, #4b5563)',
-                      animationDelay: '0.5s'
-                    }}
-                  />
-                </>
-              )}
-            </Card>
-          ))}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="inline-flex flex-col sm:flex-row gap-4 items-center justify-center p-8 rounded-2xl border border-border relative overflow-hidden group cursor-pointer bg-card/50 backdrop-blur-sm">
-            <div 
-              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500"
-              style={{
-                background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
-              }}
-            />
-            <span className="text-xl relative z-10 transition-colors duration-300 group-hover:text-black text-foreground">
-              Want to create something amazing together?
+              Journey
             </span>
-            <button 
-              className="px-8 py-3 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative z-10"
+          </h2>
+
+          {/* Description */}
+          <p className="text-xl md:text-2xl mb-12 max-w-2xl mx-auto leading-relaxed" style={{ color: '#006C67' }}>
+            Creating authentic South African musical experiences that resonate with audiences worldwide through rhythm, culture, and innovation.
+          </p>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16 max-w-2xl mx-auto">
+            {[
+              { number: "50+", label: "Campaigns" },
+              { number: "2M+", label: "Reach" },
+              { number: "100+", label: "Songs" },
+              { number: "15+", label: "Brands" }
+            ].map((stat, index) => (
+              <div 
+                key={index}
+                className="text-center p-6 rounded-2xl backdrop-blur-sm border transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                  borderColor: '#006C67'
+                }}
+              >
+                <div 
+                  className="text-2xl md:text-3xl font-bold mb-2"
+                  style={{ color: '#D14900' }}
+                >
+                  {stat.number}
+                </div>
+                <div 
+                  className="text-sm font-semibold"
+                  style={{ color: '#1A1A1A' }}
+                >
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA Section */}
+          <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button 
+                className="px-12 py-4 font-bold text-lg rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl relative overflow-hidden group"
+                style={{
+                  backgroundColor: '#D14900',
+                  color: '#FFFFFF'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FFD166'
+                  e.currentTarget.style.color = '#1A1A1A'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#D14900'
+                  e.currentTarget.style.color = '#FFFFFF'
+                }}
+              >
+                <span className="relative z-10">View Our Work</span>
+                <div 
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  style={{
+                    background: 'linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%)'
+                  }}
+                />
+              </button>
+
+              <button 
+                className="px-12 py-4 font-bold text-lg rounded-full transition-all duration-300 transform hover:scale-105 border-2 backdrop-blur-sm"
+                style={{
+                  borderColor: '#006C67',
+                  color: '#006C67',
+                  backgroundColor: 'rgba(255, 255, 255, 0.6)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#006C67'
+                  e.currentTarget.style.color = '#FFFFFF'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.6)'
+                  e.currentTarget.style.color = '#006C67'
+                }}
+              >
+                Listen Now
+              </button>
+            </div>
+
+            {/* Additional Info */}
+            <div 
+              className="max-w-md mx-auto p-6 rounded-2xl backdrop-blur-sm border mt-8"
               style={{
-                background: 'linear-gradient(180deg, #000000 0%, #6b7280 50%, #ffffff 100%)',
-                color: '#000000'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = 'brightness(1.1)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = 'brightness(1)'
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                borderColor: '#FFD166'
               }}
             >
-              Start a Project
-            </button>
+              <p className="text-sm" style={{ color: '#1A1A1A' }}>
+                <strong style={{ color: '#D14900' }}>Featured in:</strong> Nedbank Cup, Chicken Licken, KFC, Toyota South Africa, and more...
+              </p>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Floating Action Button */}
+      <button 
+        className="fixed bottom-8 right-8 w-16 h-16 rounded-full shadow-2xl z-20 flex items-center justify-center text-2xl transition-all duration-300 hover:scale-110 hover:rotate-12"
+        style={{
+          backgroundColor: '#FFD166',
+          color: '#1A1A1A'
+        }}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        ↑
+      </button>
     </section>
   )
 }
